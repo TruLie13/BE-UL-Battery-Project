@@ -21,7 +21,7 @@ class Command(BaseCommand):
             self.stdout.write(f"Processing file: {filename}...")
 
             # --- 1. Get or Create the Battery record ---
-            # This ensures we don't create duplicate batteries if we run the script again
+            # Thisprevents duplicate batteries if the script gets ran again
             battery, created = Battery.objects.get_or_create(
                 file_name=filename)
             if created:
@@ -50,7 +50,8 @@ class Command(BaseCommand):
             cycle_summary = df.groupby('Cycle_Index').agg(
                 discharge_capacity=('Discharge_Capacity(Ah)', 'max'),
                 avg_temp=('temperature_c', 'mean'),
-                max_temp=('temperature_c', 'max')
+                max_temp=('temperature_c', 'max'),
+                min_temp=('temperature_c', 'min')
             ).reset_index()
 
             # --- 5. Load the Summarized Data into the Database ---
@@ -64,6 +65,7 @@ class Command(BaseCommand):
                         'discharge_capacity': row['discharge_capacity'],
                         'avg_temp': row['avg_temp'],
                         'max_temp': row['max_temp'],
+                        'min_temp': row['min_temp'],
                     }
                 )
 

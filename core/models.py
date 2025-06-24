@@ -14,10 +14,11 @@ class CycleData(models.Model):
         Battery, on_delete=models.CASCADE, related_name='cycles')
     cycle_number = models.IntegerField()
 
-    # These are the aggregated values we want to store
+    # aggregated values
     discharge_capacity = models.FloatField()
     avg_temp = models.FloatField(verbose_name="Average Temperature (C)")
     max_temp = models.FloatField(verbose_name="Maximum Temperature (C)")
+    min_temp = models.FloatField(verbose_name="Minimum Temperature (C)")
 
     class Meta:
         # Ensures you don't save the same cycle for the same battery twice
