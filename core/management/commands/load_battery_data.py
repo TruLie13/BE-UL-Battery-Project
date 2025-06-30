@@ -68,7 +68,8 @@ class Command(BaseCommand):
 
                 # 5. Read and process the cycle data from the Excel file
                 file_path = os.path.join(data_dir, filename)
-                df = pd.read_excel(file_path)
+                all_sheets = pd.read_excel(file_path, sheet_name=None)
+                df = pd.concat(all_sheets.values(), ignore_index=True)
 
                 # Clean column names for consistency
                 df.rename(
