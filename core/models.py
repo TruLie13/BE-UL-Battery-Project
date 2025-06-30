@@ -2,9 +2,21 @@ from django.db import models
 
 
 class Battery(models.Model):
+    VOLTAGE_CHOICES = [
+        ('normal', 'Normal Voltage'),
+        ('reduced', 'Reduced Voltage'),
+    ]
     # e.g., 'Ba01_N20_OV1_300, 20% CF, 300 Cycles.xls'
     file_name = models.CharField(max_length=100, unique=True)
-    battery_number = models.IntegerField(unique=True, null=True)
+    battery_number = models.IntegerField(null=True)
+    voltage_type = models.CharField(
+        max_length=10,
+        choices=VOLTAGE_CHOICES,
+        default='normal'  # Or another sensible default
+    )
+
+    class Meta:
+        unique_together = ('voltage_type', 'battery_number')
 
     def __str__(self):
         return self.file_name
