@@ -89,6 +89,11 @@ class Command(BaseCommand):
                     min_temp=('temperature_c', 'min')
                 ).reset_index()
 
+                total_cycles = len(cycle_summary)
+                # Save it to battery instance
+                battery.cycle_count = total_cycles
+                battery.save()
+
                 # 7. Load the summarized cycle data into the database
                 self.stdout.write(
                     f"  Loading {len(cycle_summary)} cycles into database...")

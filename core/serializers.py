@@ -17,4 +17,4 @@ class BatterySerializer(serializers.ModelSerializer):
     class Meta:
         model = Battery
         # Define the fields for the Battery model
-        fields = ['id', 'file_name', 'cycles']
+        fields = ['id', 'file_name', 'cycle_count', 'cycles']

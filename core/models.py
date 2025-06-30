@@ -15,6 +15,8 @@ class Battery(models.Model):
         default='normal'  # Or another sensible default
     )
 
+    cycle_count = models.IntegerField(null=True, blank=True)
+
     class Meta:
         unique_together = ('voltage_type', 'battery_number')
 

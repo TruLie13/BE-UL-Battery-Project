@@ -3,7 +3,8 @@ from .models import Battery, CycleData
 
 
 class BatteryAdmin(admin.ModelAdmin):
-    list_display = ('file_name', 'battery_number', 'voltage_type')
+    list_display = ('file_name', 'battery_number',
+                    'voltage_type', 'cycle_count')
     list_filter = ('voltage_type',)
 
 
