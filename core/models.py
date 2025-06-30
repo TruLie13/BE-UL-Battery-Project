@@ -16,6 +16,7 @@ class CycleData(models.Model):
 
     # aggregated values
     discharge_capacity = models.FloatField()
+    charge_capacity = models.FloatField()
     avg_temp = models.FloatField(verbose_name="Average Temperature (C)")
     max_temp = models.FloatField(verbose_name="Maximum Temperature (C)")
     min_temp = models.FloatField(verbose_name="Minimum Temperature (C)")

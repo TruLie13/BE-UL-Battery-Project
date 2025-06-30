@@ -49,6 +49,7 @@ class Command(BaseCommand):
             # For each cycle, we want the max discharge capacity and the avg/max temperature
             cycle_summary = df.groupby('Cycle_Index').agg(
                 discharge_capacity=('Discharge_Capacity(Ah)', 'max'),
+                charge_capacity=('Charge_Capacity(Ah)', 'max'),
                 avg_temp=('temperature_c', 'mean'),
                 max_temp=('temperature_c', 'max'),
                 min_temp=('temperature_c', 'min')
@@ -63,6 +64,7 @@ class Command(BaseCommand):
                     cycle_number=row['Cycle_Index'],
                     defaults={
                         'discharge_capacity': row['discharge_capacity'],
+                        'charge_capacity': row['charge_capacity'],
                         'avg_temp': row['avg_temp'],
                         'max_temp': row['max_temp'],
                         'min_temp': row['min_temp'],
