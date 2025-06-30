@@ -4,6 +4,7 @@ from django.db import models
 class Battery(models.Model):
     # e.g., 'Ba01_N20_OV1_300, 20% CF, 300 Cycles.xls'
     file_name = models.CharField(max_length=100, unique=True)
+    battery_number = models.IntegerField(unique=True, null=True)
 
     def __str__(self):
         return self.file_name

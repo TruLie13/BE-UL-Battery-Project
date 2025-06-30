@@ -1,4 +1,5 @@
 import os
+import re
 import pandas as pd
 from django.core.management.base import BaseCommand
 from core.models import Battery, CycleData
@@ -20,10 +21,23 @@ class Command(BaseCommand):
 
             self.stdout.write(f"Processing file: {filename}...")
 
+            # Extract the battery number from the filename
+            battery_num = None
+            match = re.search(r'Ba(\d+)_', filename)
+            if match:
+                battery_num = int(match.group(1))
+
             # --- 1. Get or Create the Battery record ---
             # Thisprevents duplicate batteries if the script gets ran again
             battery, created = Battery.objects.get_or_create(
-                file_name=filename)
+                file_name=filename,
+                defaults={'battery_number': battery_num}
+            )
+
+            if not created and battery.battery_number != battery_num:
+                battery.battery_number = battery_num
+                battery.save()
+
             if created:
                 self.stdout.write(self.style.SUCCESS(
                     f"  Created new battery: {filename}"))

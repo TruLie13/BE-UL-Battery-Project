@@ -18,3 +18,4 @@ class BatteryDetail(generics.RetrieveAPIView):
     """
     queryset = Battery.objects.all()
     serializer_class = BatterySerializer
+    lookup_field = 'battery_number'
