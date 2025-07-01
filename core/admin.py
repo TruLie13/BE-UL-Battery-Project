@@ -12,7 +12,6 @@ class CycleDataAdmin(admin.ModelAdmin):
     list_display = ('battery', 'cycle_number', 'discharge_capacity',
                     'charge_capacity', 'avg_temp', 'max_temp', 'min_temp')
 
-    # Allow filtering by voltage type
     list_filter = ('battery__voltage_type', 'battery')
 
 
