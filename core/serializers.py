@@ -6,8 +6,8 @@ class CycleDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = CycleData
         # Define the fields from the model to include in the API
-        fields = ['cycle_number', 'discharge_capacity', 'charge_capacity',
-                  'avg_temp', 'max_temp', 'min_temp']
+        fields = ['cycle_number', 'discharge_capacity', 'charge_capacity', 'avg_current',
+                  'avg_voltage', 'avg_temp', 'max_temp', 'min_temp']
 
 
 class BatterySerializer(serializers.ModelSerializer):
