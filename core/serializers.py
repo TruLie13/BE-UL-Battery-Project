@@ -18,12 +18,6 @@ class BatterySerializer(serializers.ModelSerializer):
 
 
 class BatterySummarySerializer(serializers.ModelSerializer):
-    state_of_health = serializers.SerializerMethodField()
-    durability_score = serializers.FloatField()
-    resilience_score = serializers.FloatField()
-    balanced_score = serializers.FloatField()
-    overall_avg_temp = serializers.FloatField()
-    overall_avg_discharge = serializers.FloatField()
 
     class Meta:
         model = Battery

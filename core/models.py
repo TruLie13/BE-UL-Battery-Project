@@ -18,6 +18,14 @@ class Battery(models.Model):
     c_rate = models.CharField(max_length=10, null=True, blank=True)
     stress_test = models.CharField(max_length=10, null=True, blank=True)
 
+    # pre-calculated fields
+    state_of_health = models.FloatField(null=True, blank=True)
+    overall_avg_temp = models.FloatField(null=True, blank=True)
+    overall_avg_discharge = models.FloatField(null=True, blank=True)
+    durability_score = models.FloatField(null=True, blank=True)
+    resilience_score = models.FloatField(null=True, blank=True)
+    balanced_score = models.FloatField(null=True, blank=True)
+
     class Meta:
         unique_together = ('voltage_type', 'battery_number')
 
