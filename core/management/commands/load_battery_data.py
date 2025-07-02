@@ -35,12 +35,19 @@ class Command(BaseCommand):
 
                 self.stdout.write(f"Processing file: {filename}...")
 
-                # 3. Extract the battery number from the filename
+                # 3. Extract battery data from the filename
                 battery_num = None
                 # This regex looks for 'Ba' followed by one or more digits
                 match = re.search(r'B[ab](\d+)_', filename)
                 if match:
                     battery_num = int(match.group(1))
+
+                parts = filename.split('_')
+                c_rate_val = None
+                stress_test_val = None
+                if len(parts) > 2:
+                    c_rate_val = parts[1]      # e.g., "R20"
+                    stress_test_val = parts[2]  # e.g., "OV1"
 
                 # 4. Get or Update the Battery record in the database
                 try:
@@ -48,6 +55,8 @@ class Command(BaseCommand):
                     # If found, ensure its details are up-to-date
                     battery.battery_number = battery_num
                     battery.voltage_type = v_type
+                    battery.c_rate = c_rate_val
+                    battery.stress_test = stress_test_val
                     battery.save()
                     created = False
                 except Battery.DoesNotExist:
@@ -55,7 +64,9 @@ class Command(BaseCommand):
                     battery = Battery.objects.create(
                         file_name=filename,
                         battery_number=battery_num,
-                        voltage_type=v_type
+                        voltage_type=v_type,
+                        c_rate=c_rate_val,         # <-- Add this
+                        stress_test=stress_test_val
                     )
                     created = True
 

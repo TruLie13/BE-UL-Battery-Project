@@ -32,6 +32,8 @@ class BatterySummarySerializer(serializers.ModelSerializer):
             'file_name',
             'battery_number',
             'voltage_type',
+            'c_rate',
+            'stress_test',
             'cycle_count',
             'state_of_health',
             'durability_score',

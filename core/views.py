@@ -57,6 +57,8 @@ class BatterySummaryView(generics.ListAPIView):
                 'file_name': battery.file_name,
                 'battery_number': battery.battery_number,
                 'voltage_type': battery.voltage_type,
+                'c_rate': battery.c_rate,
+                'stress_test': battery.stress_test,
                 'cycle_count': battery.cycle_count,
                 'state_of_health': soh if soh is not None else 0,
                 'overall_avg_temp': round(avg_temp, 2) if avg_temp is not None else None,

@@ -12,10 +12,11 @@ class Battery(models.Model):
     voltage_type = models.CharField(
         max_length=10,
         choices=VOLTAGE_CHOICES,
-        default='normal'  # Or another sensible default
+        default='normal'
     )
-
     cycle_count = models.IntegerField(null=True, blank=True)
+    c_rate = models.CharField(max_length=10, null=True, blank=True)
+    stress_test = models.CharField(max_length=10, null=True, blank=True)
 
     class Meta:
         unique_together = ('voltage_type', 'battery_number')
@@ -39,7 +40,7 @@ class CycleData(models.Model):
     min_temp = models.FloatField(verbose_name="Minimum Temperature (C)")
 
     class Meta:
-        # Ensures you don't save the same cycle for the same battery twice
+        # Ensures same cycle for the same battery doesn't save twice
         unique_together = ('battery', 'cycle_number')
 
     def __str__(self):
