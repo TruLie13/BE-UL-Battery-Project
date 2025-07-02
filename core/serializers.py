@@ -32,19 +32,18 @@ class BatterySummarySerializer(serializers.ModelSerializer):
         ]
 
     def get_state_of_health(self, obj):
-        """
-        Calculates the State of Health (SOH) as a percentage.
-        """
         try:
-            first_cycle = obj.cycles.earliest('cycle_number')
-            last_cycle = obj.cycles.latest('cycle_number')
+            first_usable_cycle = obj.cycles.filter(
+                discharge_capacity__gt=0).earliest('cycle_number')
+            last_usable_cycle = obj.cycles.filter(
+                discharge_capacity__gt=0).latest('cycle_number')
 
-            initial_capacity = first_cycle.discharge_capacity
-            final_capacity = last_cycle.discharge_capacity
+            initial_capacity = first_usable_cycle.discharge_capacity
+            final_capacity = last_usable_cycle.discharge_capacity
 
             if initial_capacity > 0:
                 return round((final_capacity / initial_capacity) * 100, 2)
         except CycleData.DoesNotExist:
             # Handle cases where a battery might not have cycle data
-            return None
-        return None
+            return 0.0
+        return 0.0
