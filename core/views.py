@@ -39,6 +39,18 @@ class BatterySummaryView(generics.ListAPIView):
         # 1. Manually build a list of dictionaries with the initial data
         initial_data = []
         for battery in queryset:
+            all_cycles = battery.cycles.all()
+            avg_temp = None
+            avg_discharge = None
+            if all_cycles.exists():
+                from django.db.models import Avg
+                aggregates = all_cycles.aggregate(
+                    avg_temp=Avg('avg_temp'),
+                    avg_discharge=Avg('discharge_capacity')
+                )
+                avg_temp = aggregates.get('avg_temp')
+                avg_discharge = aggregates.get('avg_discharge')
+
             soh = serializer_instance.get_state_of_health(battery)
             initial_data.append({
                 'id': battery.id,
@@ -46,7 +58,9 @@ class BatterySummaryView(generics.ListAPIView):
                 'battery_number': battery.battery_number,
                 'voltage_type': battery.voltage_type,
                 'cycle_count': battery.cycle_count,
-                'state_of_health': soh if soh is not None else 0
+                'state_of_health': soh if soh is not None else 0,
+                'overall_avg_temp': round(avg_temp, 2) if avg_temp is not None else None,
+                'overall_avg_discharge': round(avg_discharge, 2) if avg_discharge is not None else None,
             })
 
         if not initial_data:
@@ -68,6 +82,16 @@ class BatterySummaryView(generics.ListAPIView):
         df['durability_score'] = df['norm_cycles'] * 0.7 + df['norm_soh'] * 0.3
         df['resilience_score'] = df['norm_cycles'] * 0.3 + df['norm_soh'] * 0.7
         df['balanced_score'] = df['norm_cycles'] * 0.5 + df['norm_soh'] * 0.5
+
+        # 4. Round columns
+        df = df.round({
+            'state_of_health': 2,
+            'overall_avg_temp': 2,
+            'overall_avg_discharge': 2,
+            'durability_score': 4,
+            'resilience_score': 4,
+            'balanced_score': 4
+        })
 
         # Clean up by dropping the temporary normalization columns
         df = df.drop(columns=['norm_soh', 'norm_cycles'])

@@ -22,6 +22,8 @@ class BatterySummarySerializer(serializers.ModelSerializer):
     durability_score = serializers.FloatField()
     resilience_score = serializers.FloatField()
     balanced_score = serializers.FloatField()
+    overall_avg_temp = serializers.FloatField()
+    overall_avg_discharge = serializers.FloatField()
 
     class Meta:
         model = Battery
@@ -35,6 +37,8 @@ class BatterySummarySerializer(serializers.ModelSerializer):
             'durability_score',
             'resilience_score',
             'balanced_score',
+            'overall_avg_temp',
+            'overall_avg_discharge',
         ]
 
     def get_state_of_health(self, obj):
