@@ -93,5 +93,5 @@ A Django REST Framework backend to process, analyze, and serve cycle-life data f
 
 This project uses open-source data provided by UL Research Institutes.
 
-- **Original Data Source:** [UL-FRI Open Science Data](https://ul.org/institutes-offices/electrochemical-safety/open-science-data)
-- **Specific Dataset:** Cycle Life Aging Test – Cylindrical Cell – Part 01 ([DOI: 10.5281/zenodo.7658812](https://doi.org/10.5281/zenodo.7658812))
+- **Original Data Source:** <a href="https://ul.org/institutes-offices/electrochemical-safety/open-science-data" target="_blank" rel="noopener noreferrer">UL-FRI Open Science Data</a>
+- **Specific Dataset:** Cycle Life Aging Test – Cylindrical Cell – Part 01 (<a href="https://doi.org/10.5281/zenodo.7658812" target="_blank" rel="noopener noreferrer">DOI: 10.5281/zenodo.7658812</a>)
