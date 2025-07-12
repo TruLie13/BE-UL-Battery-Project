@@ -1,4 +1,9 @@
+import os
+
+from django.conf import settings
+from django.http import JsonResponse
 from rest_framework import generics
+
 from .models import Battery
 from .serializers import BatterySerializer, BatterySummarySerializer
 
@@ -41,3 +46,20 @@ class BatterySummaryView(generics.ListAPIView):
     """
     queryset = Battery.objects.order_by('voltage_type', 'battery_number')
     serializer_class = BatterySummarySerializer
+
+
+def health_check(request):
+    """
+    An endpoint to provide the last data update timestamp.
+    """
+    timestamp_file_path = os.path.join(settings.BASE_DIR, 'last_update.txt')
+    last_updated = None
+
+    try:
+        with open(timestamp_file_path, 'r') as f:
+            last_updated = f.read().strip()
+    except FileNotFoundError:
+        # This will be the case if the load script has never been run
+        pass
+
+    return JsonResponse({'last_updated': last_updated})

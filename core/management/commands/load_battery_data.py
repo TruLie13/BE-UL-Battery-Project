@@ -3,6 +3,8 @@ import re
 import pandas as pd
 from django.core.management.base import BaseCommand
 from django.db.models import Avg
+from django.conf import settings
+from django.utils import timezone
 from core.models import Battery, CycleData
 
 
@@ -152,3 +154,11 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS(
             "--- All calculations complete and saved! ---"))
+
+        # --- ADD THIS BLOCK TO SAVE THE TIMESTAMP ---
+        timestamp_file_path = os.path.join(
+            settings.BASE_DIR, 'last_update.txt')
+        with open(timestamp_file_path, 'w') as f:
+            f.write(timezone.now().isoformat())
+        self.stdout.write(self.style.SUCCESS(
+            f'Successfully updated timestamp file at {timestamp_file_path}'))
